@@ -81,11 +81,17 @@
 
 - 실습 : (19_array_object.html)
 
-  ① toString( ) :
+  ① toString( ) : 쉼표를 기준으로 하나의 문자열로 변환
 
-  ② join( ) :
+  ② join( ) : 파라미터로 전달된 문자를 이용해서 하나의 문자열로 변환하며 실무에서 많이 사용
+  => join의 활용 : 실무에서 많이 사용하며 많은 데이터양을 동적으로 불러올 경우 매우 효과적이다.
+  - 태그 : table, thead, th, tbody, tr, td, button
+  - 스타일 : border, margin-top, text-align, background-color
+  - 속성 : id(자바스크립트에 document의 위치를 알려주기), class(스타일 대상 요소를 가리킴)
+  - 이벤트 : 요소에 발생하는 동작 (button onclick="함수")
+  - 이벤트핸들러 : 이벤트에 해당하는 동작을 담은 함수
 
-  ③ pop() :
+  ③ pop() : 
 
   ④ push() :
 
