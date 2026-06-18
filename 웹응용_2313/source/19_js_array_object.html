@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "맑은 고딕", sans-serif;
+        background: #f1f5f9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 40px;
+      }
+
+      /* 셀렉트 */
+      select {
+        width: 250px;
+        padding: 12px;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 15px;
+        background: white;
+        cursor: pointer;
+        outline: none;
+        transition: 0.2s;
+      }
+
+      select:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 8px rgba(37, 99, 235, 0.2);
+      }
+
+      /* 버튼 */
+      button {
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+      }
+
+      button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+      }
+
+      button:active {
+        transform: scale(0.97);
+      }
+
+      /* 공통 테이블 */
+      table {
+        width: 500px;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      /* 첫 번째 테이블 */
+      table:first-of-type thead {
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+      }
+
+      /* 두 번째 테이블 */
+      .tableEx thead {
+        background: linear-gradient(135deg, #059669, #047857);
+      }
+
+      thead {
+        color: white;
+      }
+
+      th {
+        padding: 16px;
+        font-size: 15px;
+      }
+
+      td {
+        padding: 14px;
+        text-align: center;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      tbody tr:nth-child(even) {
+        background: #f8fafc;
+      }
+
+      tbody tr:hover {
+        background: #dbeafe;
+        transition: 0.2s;
+      }
+
+      tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      @media (max-width: 600px) {
+        table {
+          width: 95%;
+        }
+
+        select {
+          width: 95%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <select id="selDrinkType"></select>
+    <br />
+    <select id="selDrinkType2"></select>
+    <button onclick="doSearch1()">조회1</button>
+    <table>
+      <thead>
+        <th>학번</th>
+        <th>이름</th>
+        <th>벌점</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2317</td>
+          <td>홍성재</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>2306</td>
+          <td>박주혁</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>2305</td>
+          <td>민서연</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>2312</td>
+          <td>이담현</td>
+          <td>2</td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <table class="tableEx">
+      <thead>
+        <th>음료</th>
+        <th>가격</th>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <script>
+      // 자바스크립트에서 가장 많이 사용하며 실무에서 중요도가 높은 객체 let
+      let brands = ["구글", "애플", "아마존", "삼성", "하이닉스", "메타"];
+
+      // 1. toString() : 배열 요소를 하나의 문자열(,)로 합치기
+      console.log(brands.toString()); // 구글,애플,아마존,삼성,하이닉스,메타
+
+      // 2. ****** join() : 파라미터로 전달된 문자를 이용해서 하나의 문자열로 합치기
+      console.log(brands.join("")); // 구글애플아마존삼성하이닉스메타
+      console.log(brands.join("/")); // 구글/애플/아마존/삼성/하이닉스/메타
+
+      // 2-1. join() 실무 활용 : DB에서 데이터를 읽어와 동적으로 표를 만들어 화면에 출력
+      const doSearch1 = () => {
+        // 1. DB에서 데이터 읽어오기
+        const drinkList = [
+          { name: "오렌지", price: 1000 },
+          { name: "파워에이드", price: 1200 },
+          { name: "커피", price: 700 },
+          { name: "보리음료", price: 1200 },
+          { name: "코카콜라", price: 1800 },
+        ];
+        // 2. 데이터 갯수만큼 렌더링해서 출력
+        let trTags = "";
+
+        for (drink of drinkList) {
+          trTags += `
+              <tr>
+                <td>${drink.name}</td>
+                <td>${drink.price}</td>
+              </tr>
+            `;
+        }
+      };
+
+      // 3. pop() : 배열의 마지막 요소를 제거. 리턴 값 : 요소
+      brands = ["구글", "애플", "아마존", "삼성", "하이닉스", "메타"];
+      console.log(brands.pop()); // 메타
+
+      // 4. push() : 배열의 마지막 요소 추가. 리턴 값 : 요소
+      // 실무에서 태그 생성 + join()
+      console.log(brands.push("테슬라")); // 6
+      console.log(brands); // ['구글', '애플', '아마존', '삼성', '하이닉스', '테슬라']
+
+      // 5. shift() : 배열의 첫 요소를 제거. 리턴 값 : 요소
+      console.log(brands.shift()); // 구글
+      console.log(brands); //['애플', '아마존', '삼성', '하이닉스', '테슬라']
+
+      // 6. unshift() : 배열의 첫 요소를 추가. 리턴 값 : length
+      console.log(brands.unshift("쿠팡")); //6
+      console.log(brands); // ['쿠팡', '애플', '아마존', '삼성', '하이닉스', '테슬라']
+
+      // 화면이 로드되면 DB에서 데이터를 읽어와서 select에 동적으로 요소를 보여주기
+      const loadDrinkType = () => {
+        const drinks = [
+          { text: "이온음료", code: "ion" },
+          { text: "커피", code: "coffee" },
+          { text: "라떼", code: "late" },
+        ];
+        drinks.unshift({ text: "전체", code: "all" });
+        let tags = [];
+        for (drink of drinks) {
+          tags.push(`<option value="${drink.code}">${drink.text}</option>`);
+        }
+        return tags;
+      };
+      const selDrink = loadDrinkType();
+      document.getElementById("selDrinkType").innerHTML = selDrink.join("");
+
+      const loadDrinkType2 = (plus) => {
+        const drinks = [
+          { text: "이온음료", code: "ion" },
+          { text: "커피", code: "coffee" },
+          { text: "라떼", code: "late" },
+        ];
+
+        let tags = [];
+
+        for (const drink of drinks) {
+          tags.push(`<option value="${drink.code}">${drink.text}</option>`);
+        }
+
+        if (plus) {
+          tags.unshift(`<option value="${plus.code}">${plus.text}</option>`);
+        }
+
+        return tags;
+      };
+      // text: "전체", code: "all"
+      const selDrink2 = loadDrinkType2({
+        text: "콜라",
+        code: "coke",
+      });
+      document.getElementById("selDrinkType2").innerHTML = selDrink2.join("");
+
+      // 7. splice(p1, p2, p3) : 원하는 위치에 특정 요소를 추가하거나 제거
+      // p1 : 원하는 위치
+      // p2 : 삭제할 갯수
+      // p3 : 추가할 요소
+      brands = ["구글", "애플", "아마존", "삼성", "하이닉스", "메타"];
+      // 애플 앞에 테슬라 넣기
+      brands.splice(1, 0, "테슬라");
+      console.log(brands); // ['구글', '테슬라', '애플', '아마존', '삼성', '하이닉스', '메타']
+      // 아마존 삭제
+      brands.splice(3, 1);
+      console.log(brands); // ['구글', '테슬라', '애플', '삼성', '하이닉스', '메타']
+      // 애플 앞에 아마존 삽입
+      brands.splice(brands.indexOf("애플"), 0, "아마존");
+      console.log(brands); // ['구글', '테슬라', '아마존', '애플', '삼성', '하이닉스', '메타']
+
+      // 8. concat() : 배열을 합치기 (갯수 제한 없음)
+      let arr1 = ["공은성", "김세주"];
+      let arr2 = ["최명준", "홍성재"];
+      let arr3 = ["신수아", "윤지온"];
+      let arr4 = arr1.concat(arr2);
+      console.log(arr4); // ['공은성', '김세주', '최명준', '홍성재']
+      let arr5 = arr1.concat(arr2, arr3);
+      console.log(arr5); // ['공은성', '김세주', '최명준', '홍성재', '신수아', '윤지온']
+
+      // ****** spread operator (전개 연산자) ******
+      let arr6 = [...arr1, ...arr2, ...arr3];
+      console.log(arr6); // ['공은성', '김세주', '최명준', '홍성재', '신수아', '윤지온']
+
+      // 9. slice(start, end) : end-1 까지 잘라내기 => 배열로 리턴
+      const newBrands = brands.slice(0, 4);
+      console.log(newBrands); //  ['구글', '테슬라', '아마존', '애플']
+
+      // 10. **************** sort() ****************
+      /* - 문자열 오름차순이 기본
+         - 숫자에 대해서 별도의 알고리즘이 필요
+         자바스크립트의 비교 함수의 동작원리 => 엔진이 내부적으로 알고리즘
+         (크롬의 경우 TimSort 알고리즘)을 갖고 있으며 함수를 매개변수로 사용한다.
+
+         변환값에 따라 다음과 같이 동작한다
+
+         const 결과 배열 = 대상배열.sort((a,b) => {
+         if (a > b) return 1; // 양수이면 자리를 바꾼다.
+         else if (a < b) return -1; // 음수이면 자리를 바꾸지 않는다.
+         else 0; // 순서를 바꾸지 않는다.
+         }
+        );
+
+      */
+      let points = [100, 98, 89, 95, 76, 64];
+      console.log(points.sort()); // [100, 64, 76, 89, 95, 98]
+
+      // 오름차순
+      const newPoints = points.sort((a, b) => {
+        if (a > b)
+          return 1; // 양수이면 자리를 바꾼다.
+        else if (a < b)
+          return -1; // 음수이면 자리를 바꾸지 않는다.
+        else 0; // 순서를 바꾸지 않는다.
+      });
+      console.log(newPoints); // [64, 76, 89, 95, 98, 100]
+
+      // 내림차순
+      const descPoints = points.sort((a, b) => {
+        //   if (a < b) return 1;
+        //   else if (a > b) return -1;
+        //   else return 0;
+        return b - a;
+      });
+      console.log(newPoints); // [100, 98, 95, 89, 76, 64]
+
+      const drinkList = [
+        { name: "오렌지", price: 1000 },
+        { name: "파워에이드", price: 1200 },
+        { name: "커피", price: 700 },
+        { name: "보리음료", price: 1200 },
+        { name: "코카콜라", price: 1800 },
+      ];
+
+      // 1. 가격 오름차순 정렬 => commet
+      // const price = drinkList.sort((a, b) => {
+      //   if (a.price > b.price) return 1;
+      //   else if (a.price < b.price) return -1;
+      //   else return 0;
+      // });
+      // console.log(price);
+
+      // 2. 이름 내림차순 정렬 => commet
+      // const name = drinkList.sort((a, b) => {
+      //   if (a.name < b.name) return 1;
+      //   else if (a.name > b.name) return -1;
+      //   else return 0;
+      // });
+      // console.log(name);
+
+      // 3. 키(기준) 이름을 입력받아 오름차순 정렬
+      const key = prompt("정렬할 기준을 입력하세요. (name 또는 price)");
+
+      const result = drinkList.sort((a, b) => {
+        if (a[key] > b[key]) return 1;
+        else if (a[key] < b[key]) return -1;
+        else return 0;
+      });
+
+      console.log(result);
+
+      // 가격 내림차순
+      let products = [
+        { id: 1, name: "맥북 프로", category: "electronics", price: 2500000 },
+        {
+          id: 2,
+          name: "아이패드 에어",
+          category: "electronics",
+          price: 900000,
+        },
+        {
+          id: 3,
+          name: "기계식 키보드",
+          category: "accessories",
+          price: 150000,
+        },
+        { id: 4, name: "허브 매트", category: "accessories", price: 30000 },
+      ];
+
+      const prices = products.sort((a, b) => {
+        if (a.price < b.price) return 1;
+        else if (a.price > b.price) return -1;
+        else return 0;
+      });
+
+      console.log(prices);
+
+      // 11. ****************************************
+      /* filter() : 배열에서 조건에 맞는 요소만 리턴, 새로운 배열로 리턴, 원배열은 그대로
+
+      const 결과배열 = 원배열.filter((요소) => {
+        return 조건
+      )} */
+
+      // 10만원 이상인 물건 추출
+      const overMillion = products.filter((item) => {
+        return item.price >= 100000;
+      });
+      console.log(overMillion);
+
+      // 카테고리가 악세서리
+      const accessories = products.filter((item) => {
+        return item.category === "accessories";
+      });
+      console.log(accessories);
+
+      // 가격이 10만원 이하
+      const underMillion = products.filter((item) => {
+        return item.price <= 100000;
+      });
+      console.log(underMillion);
+
+      // 카테고리가 악세서리이면서 가격이 10만원 이하
+      const underMillionAccessories = products.filter((item) => {
+        return item.category === "accessories" && item.price <= 100000;
+      });
+      console.log(underMillionAccessories);
+    </script>
+  </body>
+</html>

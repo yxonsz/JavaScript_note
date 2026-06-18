@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>미림 카페 주문 관리</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Noto Sans KR", sans-serif;
+        background-color: #f5f0eb;
+        color: #2c2c2a;
+        min-height: 100vh;
+        padding: 2rem 1rem;
+      }
+
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2c2c2a;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #2c2c2a;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #2c2c2a;
+        margin-bottom: 0.75rem;
+      }
+
+      section {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+        border: 1px solid #e0d8d0;
+      }
+
+      .order-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .order-row label {
+        font-size: 14px;
+        color: #5f5e5a;
+        white-space: nowrap;
+      }
+
+      select {
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 14px;
+        padding: 8px 12px;
+        border: 1px solid #d3d1c7;
+        border-radius: 8px;
+        background: #faf8f5;
+        color: #2c2c2a;
+        cursor: pointer;
+        outline: none;
+        flex: 1;
+        min-width: 180px;
+      }
+
+      select:focus {
+        border-color: #185fa5;
+      }
+
+      input[type="number"] {
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 14px;
+        padding: 8px 10px;
+        border: 1px solid #d3d1c7;
+        border-radius: 8px;
+        background: #faf8f5;
+        color: #2c2c2a;
+        width: 70px;
+        outline: none;
+      }
+
+      input[type="number"]:focus {
+        border-color: #185fa5;
+      }
+
+      input[type="text"] {
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 14px;
+        padding: 8px 12px;
+        border: 1px solid #d3d1c7;
+        border-radius: 8px;
+        background: #faf8f5;
+        color: #2c2c2a;
+        width: 200px;
+        outline: none;
+      }
+
+      input[type="text"]:focus {
+        border-color: #185fa5;
+      }
+
+      button {
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 8px 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.15s;
+        white-space: nowrap;
+      }
+
+      .btn-primary {
+        background: #185fa5;
+        color: #ffffff;
+      }
+
+      .btn-primary:hover {
+        background: #0c447c;
+      }
+
+      .btn-secondary {
+        background: #2c2c2a;
+        color: #ffffff;
+      }
+
+      .btn-secondary:hover {
+        background: #444441;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      thead {
+        background: #2c2c2a;
+      }
+
+      thead th {
+        color: #f5f0eb;
+        padding: 10px 12px;
+        text-align: center;
+        font-weight: 500;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid #e0d8d0;
+      }
+
+      tbody tr:last-child {
+        border-bottom: none;
+      }
+
+      tbody td {
+        padding: 10px 12px;
+        text-align: center;
+        color: #2c2c2a;
+      }
+
+      .empty-row td {
+        color: #b4b2a9;
+        padding: 1.5rem;
+      }
+
+      #searchResult {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #5f5e5a;
+        min-height: 20px;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .summary-card {
+        background: #f5f0eb;
+        border-radius: 8px;
+        padding: 12px 16px;
+      }
+
+      .summary-card .label {
+        font-size: 12px;
+        color: #888780;
+        margin-bottom: 4px;
+      }
+
+      .summary-card .value {
+        font-size: 20px;
+        font-weight: 700;
+        color: #2c2c2a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>미림 카페 주문 관리</h1>
+
+      <section>
+        <h2>메뉴 선택</h2>
+        <div class="order-row">
+          <label for="menuSelect">메뉴</label>
+          <select id="menuSelect"></select>
+          <label for="qtyInput">수량</label>
+          <input type="number" id="qtyInput" value="1" min="1" max="99" />
+          <button class="btn-primary" onclick="addOrder()">주문 추가</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>메뉴 검색</h2>
+        <div class="order-row">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="메뉴명을 입력하세요"
+          />
+          <button class="btn-secondary" onclick="searchMenu()">검색</button>
+        </div>
+        <div id="searchResult">검색 결과가 여기에 표시됩니다.</div>
+      </section>
+
+      <section>
+        <h2>주문 내역</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>주문번호</th>
+              <th>메뉴명</th>
+              <th>단가</th>
+              <th>수량</th>
+              <th>금액</th>
+            </tr>
+          </thead>
+          <tbody id="orderBody">
+            <tr class="empty-row">
+              <td colspan="5">주문 내역이 없습니다.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>결제 정보</h2>
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="label">총 주문 수량</div>
+            <div class="value"><span id="totalQty">0</span>개</div>
+          </div>
+          <div class="summary-card">
+            <div class="label">총 결제 금액</div>
+            <div class="value"><span id="totalPrice">0</span>원</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const menuList = [
+        { name: "아메리카노", price: 3000, category: "coffee" },
+        { name: "카페라떼", price: 4000, category: "coffee" },
+        { name: "바닐라라떼", price: 4500, category: "coffee" },
+        { name: "초코라떼", price: 4200, category: "nonCoffee" },
+        { name: "레몬에이드", price: 5000, category: "ade" },
+        { name: "자몽에이드", price: 5200, category: "ade" },
+      ];
+
+      const orders = [];
+      let orderCount = 0;
+
+      function loadMenu() {
+        const html = menuList
+          .map(
+            (m) =>
+              `<option value="${m.name}">${m.name} : ${m.price}원</option>`,
+          )
+          .join("");
+
+        document.getElementById("menuSelect").innerHTML = html;
+      }
+
+      function addOrder() {
+        const name = document.getElementById("menuSelect").value;
+        const qty = parseInt(document.getElementById("qtyInput").value);
+
+        const menu = menuList.find((m) => m.name === name);
+
+        if (!menu || qty < 1) return;
+
+        orderCount++;
+        orders.push({
+          num: orderCount,
+          name: menu.name,
+          price: menu.price,
+          qty: qty,
+        });
+
+        renderOrders();
+      }
+
+      function renderOrders() {
+        const rows = orders
+          .map(
+            (o) => `
+            <tr>
+              <td>${o.num}</td>
+              <td>${o.name}</td>
+              <td>${o.price}</td>
+              <td>${o.qty}</td>
+              <td>${o.price * o.qty}</td>
+            </tr>`,
+          )
+          .join("");
+
+        document.getElementById("orderBody").innerHTML = rows;
+
+        const totalQty = orders.reduce((sum, o) => sum + o.qty, 0);
+        const totalPrice = orders.reduce((sum, o) => sum + o.price * o.qty, 0);
+
+        document.getElementById("totalQty").textContent = totalQty;
+        document.getElementById("totalPrice").textContent = totalPrice;
+      }
+
+      function searchMenu() {
+        const word = document.getElementById("searchInput").value;
+        let result = "";
+
+        for (let i = 0; i < menuList.length; i++) {
+          if (menuList[i].name.includes(word)) {
+            result += menuList[i].name + " (" + menuList[i].price + "원)  ";
+          }
+        }
+
+        if (result === "") {
+          document.getElementById("searchResult").textContent =
+            "'" + word + "' 에 해당하는 메뉴가 없습니다.";
+        } else {
+          document.getElementById("searchResult").textContent = result;
+        }
+      }
+
+      loadMenu();
+    </script>
+  </body>
+</html>
