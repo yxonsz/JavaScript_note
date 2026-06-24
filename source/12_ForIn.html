@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let brands = ["애플", "구글", "아마존", "마이크로소프트", "메타"];
+      for (const i in brands) {
+        console.log(i);
+        console.log(brands[i]);
+      }
+
+      let person = {
+        name: "홍길동",
+        age: 22,
+        tel: "010-0000-1111",
+        city: "Seoul",
+      };
+
+      for (const key in person) {
+        console.log(key);
+      }
+
+      for (const key in person) {
+        console.log(key, ":", person[key]);
+      }
+
+      // let inputKey = prompt(
+      //   "알고 싶은 키를 입력하시오> (name, age, tel, city)",
+      // );
+
+      // if (!inputKey) {
+      //   console.log("입력이 되지 않았습니다.");
+      // } else {
+      //   let found = false;
+
+      //   for (let key in person) {
+      //     if (key === inputKey) {
+      //       console.log(key + " : " + person[key]);
+      //       found = true;
+      //       break;
+      //     }
+      //   }
+
+      //   if (!found) {
+      //     console.log("존재하지 않는 키입니다.");
+      //   }
+      // }
+
+      let userInput = prompt("키를 입력하시오> ");
+      if (userInput) {
+        console.log("키를 입력해야합니다.");
+      } else {
+        for (const key in person) {
+          if (userInput === key) {
+            console.log(userInput, ":", person[userInput]);
+            break;
+          } else {
+            console.log("적합한 키를 입력해주세요.");
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

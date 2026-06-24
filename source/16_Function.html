@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="./js/common.js"></script>
+    <script>
+      /* 1. 함수 선언식 방식
+        - function 함수 이름(매개변수.....) {
+            ::
+            (return)
+        }
+        - 선언전 호출이 가능
+      */
+      console.log(sum(9, 8)); // 호출
+      console.log(taxAmount(14500));
+
+      /* 2. 함수 표현식 방식
+      - 변수 사용과 비슷한 방식으로 변수에 함수를 할당해서 사용하는 방식
+      - 변수명이 함수명처럼 사용된다.
+      - 선언전 사용이 불가능
+      */
+      // sum2(6, 7);
+      const sum2 = function (n1, n2) {
+        return n1 + n2;
+      };
+      console.log(sum2(6, 7));
+      /*
+      변수 scope???
+       1. 매개변수 - 함수 안
+       2. function() {
+        var 변수? - 전체
+      */
+
+      /* 3. 화살표 함수
+      - function 예약어 사용 안 함
+      - (매개변수) => { }
+      - return문이 있고 실행문이 한 줄인 경우 {} 생략 가능
+      */
+      const sum3 = (n1, n2) => n1 + n2;
+      console.log(sum3(4, 5));
+
+      // 과제 : 숫자 2개와 연산자를 입력받아 연산(+, -, *, /, %)을 실행하는 함수를 작성해보자
+      const calculate = (n1, op, n2) => {
+        switch (op) {
+          case "+":
+            return n1 + n2;
+          case "-":
+            return n1 - n2;
+          case "*":
+            return n1 * n2;
+          case "/":
+            if (n2 !== 0) {
+              return n1 / n2;
+            } else {
+              return "0으로 나눌 수 없어요!";
+            }
+          case "%":
+            return n1 % n2;
+          default:
+            return "잘못된 연산자예요!";
+        }
+      };
+
+      const n1 = +prompt("첫 번째 숫자를 입력하세요");
+      const n2 = +prompt("두 번째 숫자를 입력하세요");
+      const op = prompt("연산자를 입력하세요 (+, -, *, /, %)");
+
+      console.log(calculate(n1, op, n2));
+    </script>
+  </body>
+</html>
