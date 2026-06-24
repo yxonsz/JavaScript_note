@@ -1,4 +1,4 @@
-<!doctype html>
+,<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,12 +6,70 @@
     <title>Document</title>
   </head>
   <body>
-    <input type="date" name="" id="stardDate" />
+    <input type="date" name="" id="startDate" />
     <input type="date" name="" id="endDate" />
     <script>
       // 1. 오늘 날짜정보 얻어오기 (매개 변수 없이)
       let now = new Date();
-      console.log(now); // Wed Jun 24 2026 10:47:32 GMT+0900 (한국 표준시)
+      console.log(now); // Wed Jun 24 2026 11:30:01 GMT+0900 (한국 표준시)
+
+      // 2. 사용자가 날짜를 지정해서 날짜 객체 만들기
+      // 년도, 월(0~), 날짜, 시, 분, 초, 밀리초
+      // 요일 (일요일 : 0)
+      let d = new Date(2025, 11, 29, 19, 34, 20, 0);
+      console.log(d); // Mon Dec 29 2025 19:34:20 GMT+0900 (한국 표준시)
+
+      // 3. get() 함수 : now
+      let year = now.getFullYear();
+      let month = now.getMonth() + 1;
+      let date = now.getDate();
+      let dayName = now.getDay();
+      let hour = now.getHours();
+      let minute = now.getMinutes();
+      let second = now.getSeconds();
+      let millises = now.getMilliseconds();
+      console.log(year, month, date, dayName, hour, minute, second, millises); // 2026 6 24 3 11 54 4 269
+
+      // 4. set() 함수 => 실무에서 거의 사용하지 않음
+
+      // 5. '2026-06-24' 으로 id="endDate" 에 출력해보기
+      let today =
+        year.toString() +
+        "-" +
+        month.toString().padStart(2, "0") +
+        "-" +
+        date.toString().padStart(2, "0");
+      document.getElementById("endDate").value = today;
+
+      // * x 100
+      /* 6. 기준시 : 1970, 1, 1, 0, 0, 0 => 밀리초로 모든 날짜를 계산하는 방식
+        - 밀리초를 구하는 내장함수 : getTime();
+        - 밀리초로 날짜를 구하는 내장함수 : Date(밀리초);
+
+        // 오늘을 기준으로 며칠 전후를 구하는 함수 : getIntervalDate();
+      */
+
+      let standard = new Date(0); // Thu Jan 01 1970 09:00:00 GMT+0900 (한국 표준시)
+      console.log(standard);
+
+      let todayMilliSec = now.getTime(); // 현재 밀리초
+      console.log(todayMilliSec); // 1782269955151
+
+      let dayMilliSec = 24 * 60 * 60 * 1000; // 하루 밀리초
+      console.log(dayMilliSec); // 86400000
+
+      let yesterday = new Date(todayMilliSec - dayMilliSec);
+      console.log(yesterday); // Tue Jun 23 2026 12:01:42 GMT+0900 (한국 표준시)
+
+      let lastweek = new Date(todayMilliSec - dayMilliSec * 7);
+
+      let lastweekStart =
+        lastweek.getFullYear() +
+        "-" +
+        (lastweek.getMonth() + 1).toString().padStart(2, "0") +
+        "-" +
+        lastweek.getDate().toString().padStart(2, "0");
+      document.getElementById("startDate").value = lastweekStart;
     </script>
   </body>
 </html>
