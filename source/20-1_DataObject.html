@@ -32,7 +32,7 @@
 
       // 4. set() 함수 => 실무에서 거의 사용하지 않음
 
-      // 5. '2026-06-24' 으로 id="endDate" 에 출력해보기
+      // 5. '2026-06-24' 으로 id="endDate" 에 출력해보기 => padStart() 활용
       let today =
         year.toString() +
         "-" +
@@ -61,15 +61,49 @@
       let yesterday = new Date(todayMilliSec - dayMilliSec);
       console.log(yesterday); // Tue Jun 23 2026 12:01:42 GMT+0900 (한국 표준시)
 
+      // 오늘을 기준으로 1주일 전을 id="startDate" 에 출력해보기
       let lastweek = new Date(todayMilliSec - dayMilliSec * 7);
 
-      let lastweekStart =
+      lastweek =
         lastweek.getFullYear() +
         "-" +
         (lastweek.getMonth() + 1).toString().padStart(2, "0") +
         "-" +
         lastweek.getDate().toString().padStart(2, "0");
-      document.getElementById("startDate").value = lastweekStart;
+      document.getElementById("startDate").value = lastweek;
+
+      // 오늘 기준으로 며칠 전(-n) 후(n)를 구하는 함수 : getIntervalDate()
+      const getIntervalDate = (day) => {
+        let now = new Date();
+
+        let year = now.getFullYear();
+        let month = now.getMonth() + 1;
+        let date = now.getDate();
+        let dayName = now.getDay();
+        let hour = now.getHours();
+        let minute = now.getMinutes();
+        let second = now.getSeconds();
+        let millises = now.getMilliseconds();
+
+        let dayNameArr = [
+          "일요일",
+          "월요일",
+          "화요일",
+          "수요일",
+          "목요일",
+          "금요일",
+          "토요일",
+        ];
+
+        let dayMilliSec = 24 * 60 * 60 * 1000; // 하루 밀리초
+        let IntervalDate = now.getTime() + day * dayMilliSec;
+        return new Date(IntervalDate);
+      };
+
+      console.log(`3일전 : ${getIntervalDate(-3)}`); // 3일 전
+      console.log(`7일전 : ${getIntervalDate(-7)}`); // 7일 전
+      console.log(`30일후 : ${getIntervalDate(30)}`); // 30일 후
+      console.log(`3일후: ${getIntervalDate(3)}`); // 3일 후
     </script>
   </body>
 </html>
