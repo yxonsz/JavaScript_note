@@ -41,8 +41,24 @@
       console.log(newFoods);
 
       // 2. 배열에서 동일한 요소제거 : 배열의 filter 이용
-      let newFood2 = foods.filter((food, index) => foods.lastIndexOf(food) === index);
+      let newFood2 = foods.filter(
+        (food, index) => foods.IndexOf(food) === index,
+      );
       console.log(newFoods);
+
+      // 3. set : add(), {}
+      foods = ["치킨", "햄버거", "순대국", "제육", "초밥", "돈까스", "순대국"];
+
+      let foodSet = new Set();
+      foodSet.add("치킨");
+      foodSet.add("치킨");
+      foodSet.add("치킨");
+      foodSet.add("치킨");
+      foodSet.add("치킨");
+      foodSet.add("치킨");
+      console.log(foodSet);
     </script>
   </body>
+</html>
+
 </html>
