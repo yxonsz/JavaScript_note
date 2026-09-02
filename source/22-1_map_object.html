@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 객체와 다른 점
+      let oPerson = {};
+      oPerson.name = "공은성";
+      oPerson.phone = "010-1234-5678";
+      oPerson["185"] = 70;
+      // 객체의 키와 값, 사이즈 출력
+      let count = 0;
+      for (const key in oPerson) {
+        console.log(`${key} : ${oPerson[key]}`); // 185 : 70 / name : 공은성 / phone : 010-1234-5678
+        count++;
+      }
+      console.log(`사이즈 : ${count} 개`); // 사이즈 : 3 개
+
+      // 1. 생성
+      let personMap = new Map();
+      personMap.set("name", "공은성");
+      personMap.set("phone", "010-1234-5678");
+      personMap.set(185, 70);
+
+      // 2. 출력 => forEach => (값, 키) : 순서 보장
+      personMap.forEach((value, key) => {
+        console.log(`${key} : ${value}`); // name : 공은성 / phone : 010-1234-5678 / 185 : 70
+      });
+
+      // 3. size 속성
+      console.log(`${personMap.size} 개`); // 3 개
+
+      // 4. keys() : key만 읽어오기
+      for (const key of personMap.keys()) {
+        console.log(key); // name / phone / 185
+      }
+
+      // 5. values() : value만 읽어오기
+      for (const value of personMap.values()) {
+        console.log(value); // 공은성 / 010-1234-5678 / 70
+      }
+
+      // 6. get() : 특정 키의 값을 읽어오기
+      console.log(personMap.get("name")); // 공은성
+      console.log(personMap.get("address")); // undefined
+
+      // 7. has() : 해당 키가 존재하는지 여부 boolean
+      if (personMap.has("name")) {
+        alert("해당 키가 존재합니다."); // 해당 키가 존재합니다.
+      }
+
+      // 8. delete() : 해당 키와 값을 삭제
+      personMap.delete(185);
+      console.log(personMap.has(185)); // false
+
+      // 9. clear() : 전체 삭제
+      personMap.clear();
+      console.log(personMap.size); // 0
+    </script>
+  </body>
+</html>
