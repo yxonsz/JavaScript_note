@@ -288,7 +288,7 @@
 
 ---
 
-# 9. windows 객체 내장 함수
+# 9. window 객체 내장 함수
 
 - 실습 : (26_window_pbject.html)
 
