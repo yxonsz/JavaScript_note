@@ -2,7 +2,7 @@
 
 ---
 
-# json-server 설치하기
+# 1. json-server 설치하기
 
 1. 구글에서 npm json server 검색 후 사이트 이동, install과 usage 확인
 2. bootcamp 폴더 아래에 json-server 폴더 생성
