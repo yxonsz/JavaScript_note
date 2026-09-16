@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // scope : 변수가 영향력을 미치는 범위
+      let carName = "애스턴 마틴";
+      function myFunction() {
+        let carName = "부가티";
+        console.log(carName);
+      }
+      myFunction(); // 부가티
+      console.log(carName); // 애스턴 마틴
+    </script>
+  </body>
+</html>
