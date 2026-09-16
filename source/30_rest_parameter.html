@@ -36,6 +36,14 @@
       console.log(sumN([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])); // 91
 
       // rest parameter : 매개변수의 갯수에 관계없이 동작하고자 할 때
+      // ... : spread operator
+      function sumRM(...nums) {
+        let sum = 0;
+        for (const n of nums) {
+          sum += n;
+        }
+        return sum;
+      }
       console.log(sumRM(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)); // 55
       console.log(sumRM(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)); // 91
     </script>
