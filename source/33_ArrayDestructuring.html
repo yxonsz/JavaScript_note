@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // array destructuring : 배열에 접근할 때 인덱스 사용 => 특정한 이름으로 배열 요소에 접근
+      function getGeoLoction(address) {
+        return [123.45, 678.98];
+      }
+      let [langitude, longitude] = getGeoLoction();
+      console.log(langitude); // 123.45
+      console.log(longitude); // 678.98
+    </script>
+  </body>
+</html>
