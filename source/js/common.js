@@ -64,3 +64,31 @@ const getIntervalDate = (day) => {
 
   return new Date(IntervalDate);
 };
+
+/**
+ * 몇일 전 후를 일정한 포맷으로 출력하는 함수
+ * @param {*} format 은 default parameter 사용
+ * @returns
+ */
+const getIntervalDateFormat2 = (day, format = "YYYY.MM.DD") => {
+  let now = new Date();
+  let dayMilliSec = 24 * 60 * 60 * 1000; // 하루
+  let IntervalDate = now.getTime() + day * dayMilliSec;
+  let d = new Date(IntervalDate);
+  let year = d.getFullYear().toString();
+  let month = (d.getMonth() + 1).toString().padStart(2, 0);
+  let day2 = d.getDate().toString().padStart(2, 0);
+
+  return format.replace("YYYY", year).replace("MM", month).replace("DD", day2);
+};
+
+/**
+ * 정수를 랜덤하게 출력
+ * @param {포함하는 가장 작은 수} min
+ * @param {포함하는 가장 큰 수} max
+ * @returns
+ */
+
+function getRandomInteger(min, max) {
+  return Math.trunc(Math.random() * (max - min + 1) + min);
+}
