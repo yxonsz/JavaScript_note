@@ -5,36 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
+
   <body>
     <script>
-      // 조회(GET, 200)
+      //1. 조회(GET, 200)
       const getPosts = () => {
-        // 1. 객체 생성
+        //1. 객체 생성
         const xhr = new XMLHttpRequest();
-
-        // 2. 준비 open()
+        //2. 준비 open()
         xhr.open("GET", "http://localhost:3000/posts");
-
-        // 3. 컨텐트 타입
+        //3. 컨텐트 타입
         xhr.setRequestHeader("content-type", "application/json");
-
-        // 4. 전송 send()
+        //4. 전송 send()
         xhr.send();
-
-        // 5. onload() 함수 생성
+        //5. onload() 함수 생성
         xhr.onload = () => {
           if (xhr.status === 200) {
             // 통신 성공
-            // 출력 => 핵심
+            //출력 => 핵심
             const result = JSON.parse(xhr.response);
             console.log(result);
           } else {
-            // 통신 실패
-            console.log(xhr.status, xhr.statusText);
+            //통신실패
+            alert("Error 발생");
           }
         };
       };
-      getPosts();
 
       const getComments = () => {
         const xhr = new XMLHttpRequest();
@@ -50,25 +46,107 @@
           }
         };
       };
-      getComments();
 
-      const getData = (url) => {
+      const url = "http://localhost:3000/";
+      const getData = (data) => {
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:3000/" + url);
+
+        xhr.open("GET", `http://localhost:3000/${data}`);
         xhr.setRequestHeader("content-type", "application/json");
         xhr.send();
         xhr.onload = () => {
           if (xhr.status === 200) {
+            // 통신 성공
+            //출력 => 핵심
             const result = JSON.parse(xhr.response);
             console.log(result);
           } else {
+            //통신실패
             console.log(xhr.status, xhr.statusText);
           }
         };
       };
-      getData("posts");
-      getData("comments");
-      getData("profile");
+
+      //2. 생성(POST, 201)
+      const postData = (target) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("POST", `http://localhost:3000/${target}`);
+        xhr.setRequestHeader("content-type", "application/json:chareset=utf-8");
+
+        const newData = { id: 3, title: "SsunJi", views: 2000 };
+        xhr.send(JSON.stringify(newData));
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            // 통신 성공
+            //출력 => 핵심
+            const result = JSON.parse(xhr.response);
+            console.log(result);
+          } else {
+            //통신실패
+            console.log(xhr.status, xhr.statusText);
+          }
+        };
+      };
+
+      //3. 수정(PUT, 200)
+      const putData = (target) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("PUT", `http://localhost:3000/${target}`); //id
+        xhr.setRequestHeader("content-type", "application/json:chareset=utf-8");
+
+        const putData = { title: "SsunJi", views: 105 };
+
+        xhr.send(JSON.stringify(putData));
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            // 통신 성공
+            //출력 => 핵심
+            const result = JSON.parse(xhr.response);
+            console.log(result);
+          } else {
+            //통신실패
+            console.log(xhr.status, xhr.statusText);
+          }
+        };
+      };
+
+      //4. 삭제(DELETE, 200)
+      const deleteData = (target) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("DELETE", `http://localhost:3000/${target}`); //id
+        xhr.setRequestHeader("content-type", "application/json:chareset=utf-8");
+
+        xhr.send();
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            // 통신 성공
+            //출력 => 핵심
+            const result = JSON.parse(xhr.response);
+            console.log(result);
+          } else {
+            //통신실패
+            console.log(xhr.status, xhr.statusText);
+          }
+        };
+      };
+
+      //   getPosts(); //posts
+      //   getComments(); //comments
+      //   getData("posts"); //posts
+      //   getData("comments"); //comments
+      //   getData("profile"); //profile
+      //   postData("posts");
+      //   putData("posts/Zreu6KrSLwo");
+      deleteData("posts/OBPfMUyW1MA");
+      deleteData("comments/2");
+
+      /*단점
+        1. 비동기 방식 => send()를 하고 나서 reponse가 올 때까지 기다리지 않는다.
+        2. rendering하는데 약간의 제약이 있다. 
+        */
     </script>
   </body>
 </html>
