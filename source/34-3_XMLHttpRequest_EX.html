@@ -25,25 +25,34 @@
 
     <script>
       /*
-      1. 조회 : ID 제목 작성자 조회
-      2. 추가 : ID 제목 작성자 추가 + 유효성 체크 + 버튼 누르면 input 내용 사라짐
-      3. 수정 : 유효성 체크 + ID 제목 작성자 수정 + 목록에 반영 + 버튼 누르면 input 내용 사라짐
-      4. 삭제 : 유효성 체크 + ID만 가지고 삭제
-      5. rendering : text, ul, table ... => push, join
-      6. 추가함수 : 자유롭게
+       1. 조회 : ID 제목 작성자 조회
+       2. 추가 : ID 제목 작성자 추가 + 유효성 체크 + 버튼 누르면 input 내용 사라짐
+       3. 수정 : 유효성 체크 + ID 제목 작성자 수정 + 목록에 반영 + 버튼 누르면 input 내용 사라짐
+       4. 삭제 : 유효성 체크 + ID만 가지고 삭제
+       5. rendering : text, ul, table ... => push, join
+       6. 추가함수 : 자유롭게
       */
 
-      //1. 조회(GET, 200)
-      const getPosts = () => {
+      // 1. 조회(GET, 200)
+      const getData = function () {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", "http://localhost:3000/posts");
         xhr.setRequestHeader("content-type", "application/json");
         xhr.send();
-        xhr.onload = () => {
+        xhr.onload = function () {
           if (xhr.status === 200) {
             const result = JSON.parse(xhr.response);
+            let str = "<ul>";
+
+            result.forEach((post) => {
+              str += `<li>ID: ${post.id} , Title: ${post.title} , View: ${post.views}</li>`;
+            });
+
+            str += "</ul>";
+
+            document.getElementById("postList").innerHTML = str;
           } else {
-            alert("Error 발생");
+            alert("Error 발생: " + xhr.status);
           }
         };
       };
