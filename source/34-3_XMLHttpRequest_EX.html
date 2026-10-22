@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style></style>
   </head>
   <body>
     <h1>Posts 데이터 관리</h1>
@@ -14,14 +15,38 @@
     </div>
 
     <div>
-      <button id="btnRead()" onclick="getData()">조회</button>
-      <button id="btnCreate()" onclick="putData()">추가</button>
-      <button id="btnUpdate()" onclick="postData()">수정</button>
-      <button id="btnDelete()" onclick="deleteData()">삭제</button>
+      <button id="btnRead" onclick="getData()">조회</button>
+      <button id="btnCreate" onclick="putData()">추가</button>
+      <button id="btnUpdate" onclick="postData()">수정</button>
+      <button id="btnDelete" onclick="deleteData()">삭제</button>
     </div>
-
     <h2>데이터 목록</h2>
     <div id="postList"></div>
-    <script></script>
+
+    <script>
+      /*
+      1. 조회 : ID 제목 작성자 조회
+      2. 추가 : ID 제목 작성자 추가 + 유효성 체크 + 버튼 누르면 input 내용 사라짐
+      3. 수정 : 유효성 체크 + ID 제목 작성자 수정 + 목록에 반영 + 버튼 누르면 input 내용 사라짐
+      4. 삭제 : 유효성 체크 + ID만 가지고 삭제
+      5. rendering : text, ul, table ... => push, join
+      6. 추가함수 : 자유롭게
+      */
+
+      //1. 조회(GET, 200)
+      const getPosts = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost:3000/posts");
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.send();
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            const result = JSON.parse(xhr.response);
+          } else {
+            alert("Error 발생");
+          }
+        };
+      };
+    </script>
   </body>
 </html>
