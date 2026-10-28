@@ -16,10 +16,11 @@
 
     <div>
       <button id="btnRead" onclick="getData()">조회</button>
-      <button id="btnCreate" onclick="putData()">추가</button>
+      <button id="btnCreate" onclick="putData('posts')">추가</button>
       <button id="btnUpdate" onclick="postData()">수정</button>
       <button id="btnDelete" onclick="deleteData()">삭제</button>
     </div>
+
     <h2>데이터 목록</h2>
     <div id="postList"></div>
 
@@ -27,30 +28,115 @@
       /*
        1. 조회 : ID 제목 작성자 조회
        2. 추가 : title, view 유효성 체크, clear. 추가와 동시에 목록
-       3. 수정 : 유효성 체크 + ID 제목 작성자 수정 + 목록에 반영 + 버튼 누르면 input 내용 사라짐
-       4. 삭제 : 유효성 체크 + ID만 가지고 삭제
+       3. 수정 : title, view 유효성 체크, clear. 추가와 동시에 목록
+       4. 삭제 : id 유효성, clear, 삭제와 동시에 목록 반영
        5. rendering : text, ul, table ... => push, join
        6. 추가함수 : 자유롭게
       */
 
-      // 1. 조회(GET, 200)
+      // rendering
+      const rendering = (result) => {
+        const text = result.map((post) => {
+          return (
+            "<p> ID: " +
+            post.id +
+            ", Title: " +
+            post.title +
+            ", Views: " +
+            post.views +
+            "</p>"
+          );
+        });
+        document.getElementById("postList").innerHTML = text.join("");
+      };
+
+      // 조회(GET, 200)
       const getData = function () {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", "http://localhost:3000/posts");
         xhr.setRequestHeader("content-type", "application/json");
         xhr.send();
+
         xhr.onload = function () {
           if (xhr.status === 200) {
             const result = JSON.parse(xhr.response);
-            let str = "<ul>";
+            rendering(result);
+          } else {
+            alert("Error 발생: " + xhr.status);
+          }
+        };
+      };
 
-            result.forEach((post) => {
-              str += `<li>ID: ${post.id}, Title: ${post.title}, View: ${post.views}</li>`;
-            });
+      // 추가(POST, 201)
+      const putData = (target) => {
+        const xhr = new XMLHttpRequest();
 
-            str += "</ul>";
+        const id = document.getElementById("inputId").value;
+        const title = document.getElementById("inputTittle").value;
+        const views = document.getElementById("inputViews").value;
 
-            document.getElementById("postList").innerHTML = str;
+        if (title === "" || views === "") {
+          alert("title, views를 모두 입력해주세요.");
+          return;
+        }
+
+        xhr.open("POST", `http://localhost:3000/${target}`);
+        xhr.setRequestHeader("content-type", "application/json; charset=utf-8");
+
+        const newData = {
+          id: id,
+          title: title,
+          views: Number(views),
+        };
+
+        xhr.send(JSON.stringify(newData));
+
+        xhr.onload = () => {
+          if (xhr.status === 201) {
+            document.getElementById("inputId").value = "";
+            document.getElementById("inputTittle").value = "";
+            document.getElementById("inputViews").value = "";
+            getData();
+          } else {
+            alert("Error 발생: " + xhr.status);
+          }
+        };
+      };
+
+      // 수정(PUT, 200)
+      const postData = () => {
+        const xhr = new XMLHttpRequest();
+
+        const id = document.getElementById("inputId").value;
+        const title = document.getElementById("inputTittle").value;
+        const views = document.getElementById("inputViews").value;
+
+        if (id === "") {
+          alert("수정할 ID를 입력해주세요.");
+          return;
+        }
+
+        if (title === "" || views === "") {
+          alert("title, views를 모두 입력해주세요.");
+          return;
+        }
+
+        xhr.open("PUT", `http://localhost:3000/posts/${id}`);
+        xhr.setRequestHeader("content-type", "application/json; charset=utf-8");
+
+        const updateData = {
+          title: title,
+          views: Number(views),
+        };
+
+        xhr.send(JSON.stringify(updateData));
+
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            document.getElementById("inputId").value = "";
+            document.getElementById("inputTittle").value = "";
+            document.getElementById("inputViews").value = "";
+            getData();
           } else {
             alert("Error 발생: " + xhr.status);
           }
